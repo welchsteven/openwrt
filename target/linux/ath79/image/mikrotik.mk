@@ -137,3 +137,14 @@ define Device/mikrotik_routerboard-wap-2nd
   IMAGE_SIZE := 16256k
 endef
 TARGET_DEVICES += mikrotik_routerboard-wap-2nd
+
+define Device/mikrotik_routerboard-groovea-52HPacn
+  $(Device/mikrotik_nor)
+  SOC := qca9556
+  DEVICE_MODEL := GrooveA 52 (wAP AC)
+  IMAGE_SIZE := 16256k
+  DEVICE_PACKAGES += kmod-ath10k-ct-smallbuffers ath10
+  SUPPORTED_DEVICES += rb-groovea-52hpacn
+endef
+TARGET_DEVICES += mikrotik_routerboard-groovea-52HPacn
+
