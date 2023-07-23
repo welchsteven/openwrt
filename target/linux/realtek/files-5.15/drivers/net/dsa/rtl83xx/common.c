@@ -6,6 +6,8 @@
 #include <net/nexthop.h>
 #include <net/neighbour.h>
 #include <net/netevent.h>
+#include <linux/etherdevice.h>
+#include <linux/if_vlan.h>
 #include <linux/inetdevice.h>
 #include <linux/rhashtable.h>
 #include <linux/of_net.h>
@@ -527,24 +529,25 @@ int rtl83xx_lag_del(struct dsa_switch *ds, int group, int port)
 	return 0;
 }
 
-/* Allocate a 64 bit octet counter located in the LOG HW table */
-static int rtl83xx_octet_cntr_alloc(struct rtl838x_switch_priv *priv)
-{
-	int idx;
+// Currently Unused
+// /* Allocate a 64 bit octet counter located in the LOG HW table */
+// static int rtl83xx_octet_cntr_alloc(struct rtl838x_switch_priv *priv)
+// {
+// 	int idx;
 
-	mutex_lock(&priv->reg_mutex);
+// 	mutex_lock(&priv->reg_mutex);
 
-	idx = find_first_zero_bit(priv->octet_cntr_use_bm, MAX_COUNTERS);
-	if (idx >= priv->n_counters) {
-		mutex_unlock(&priv->reg_mutex);
-		return -1;
-	}
+// 	idx = find_first_zero_bit(priv->octet_cntr_use_bm, MAX_COUNTERS);
+// 	if (idx >= priv->n_counters) {
+// 		mutex_unlock(&priv->reg_mutex);
+// 		return -1;
+// 	}
 
-	set_bit(idx, priv->octet_cntr_use_bm);
-	mutex_unlock(&priv->reg_mutex);
+// 	set_bit(idx, priv->octet_cntr_use_bm);
+// 	mutex_unlock(&priv->reg_mutex);
 
-	return idx;
-}
+// 	return idx;
+// }
 
 /* Allocate a 32-bit packet counter
  * 2 32-bit packet counters share the location of a 64-bit octet counter
@@ -1282,6 +1285,8 @@ static void rtl83xx_net_event_work_do(struct work_struct *work)
 	struct rtl838x_switch_priv *priv = net_work->priv;
 
 	rtl83xx_l3_nexthop_update(priv, net_work->gw_addr, net_work->mac);
+
+	kfree(net_work);
 }
 
 static int rtl83xx_netevent_event(struct notifier_block *this,
@@ -1295,13 +1300,6 @@ static int rtl83xx_netevent_event(struct notifier_block *this,
 
 	priv = container_of(this, struct rtl838x_switch_priv, ne_nb);
 
-	net_work = kzalloc(sizeof(*net_work), GFP_ATOMIC);
-	if (!net_work)
-		return NOTIFY_BAD;
-
-	INIT_WORK(&net_work->work, rtl83xx_net_event_work_do);
-	net_work->priv = priv;
-
 	switch (event) {
 	case NETEVENT_NEIGH_UPDATE:
 		if (n->tbl != &arp_tbl)
@@ -1310,9 +1308,15 @@ static int rtl83xx_netevent_event(struct notifier_block *this,
 		port = rtl83xx_port_dev_lower_find(dev, priv);
 		if (port < 0 || !(n->nud_state & NUD_VALID)) {
 			pr_debug("%s: Neigbour invalid, not updating\n", __func__);
-			kfree(net_work);
 			return NOTIFY_DONE;
 		}
+
+		net_work = kzalloc(sizeof(*net_work), GFP_ATOMIC);
+		if (!net_work)
+			return NOTIFY_BAD;
+
+		INIT_WORK(&net_work->work, rtl83xx_net_event_work_do);
+		net_work->priv = priv;
 
 		net_work->mac = ether_addr_to_u64(n->ha);
 		net_work->gw_addr = *(__be32 *) n->primary_key;
@@ -1426,7 +1430,7 @@ static int rtl83xx_fib_event(struct notifier_block *this, unsigned long event, v
 			fib_info_hold(fib_work->fen_info.fi);
 
 		} else if (info->family == AF_INET6) {
-			struct fib6_entry_notifier_info *fen6_info = ptr;
+			//struct fib6_entry_notifier_info *fen6_info = ptr;
 			pr_warn("%s: FIB_RULE ADD/DEL for IPv6 not supported\n", __func__);
 			kfree(fib_work);
 			return NOTIFY_DONE;

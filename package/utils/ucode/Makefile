@@ -12,9 +12,9 @@ PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=https://github.com/jow-/ucode.git
-PKG_SOURCE_DATE:=2023-01-23
-PKG_SOURCE_VERSION:=941d14837faf248eb2fa88dd0d5cfddeed044a15
-PKG_MIRROR_HASH:=19e8654bcb8a13a0a276a240a1da0f2815b0dd0d4f8bb8622e8de1040d5408a5
+PKG_SOURCE_DATE:=2023-06-06
+PKG_SOURCE_VERSION:=c7d84aae09691a99ae3db427c0b2463732ef84f4
+PKG_MIRROR_HASH:=38826ae70d886d1d7ada3fc6591ac807169aa28107f60f7f2e617520083525fb
 PKG_MAINTAINER:=Jo-Philipp Wich <jo@mein.io>
 PKG_LICENSE:=ISC
 
@@ -118,7 +118,7 @@ endef
 define Package/ucode-mod-rtnl
   $(Package/ucode/default)
   TITLE+= (rtnl module)
-  DEPENDS:=ucode +libnl-tiny
+  DEPENDS:=ucode +libnl-tiny +libubox
 endef
 
 define Package/ucode-mod-rtnl/description
