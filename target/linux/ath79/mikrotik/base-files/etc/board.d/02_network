@@ -27,7 +27,8 @@ ath79_setup_interfaces()
 	mikrotik,routerboard-sxt-5nd-r2|\
 	mikrotik,routerboard-wap-2nd|\
 	mikrotik,routerboard-wap-g-5hact2hnd|\
-	mikrotik,routerboard-wapr-2nd)
+	mikrotik,routerboard-wapr-2nd|\
+	mikrotik,routerboard-groovega-52HPacn)
 		ucidef_set_interface_lan "eth0"
 		;;
 	mikrotik,routerboard-951ui-2hnd|\
@@ -69,7 +70,8 @@ ath79_setup_macs()
 	mikrotik,routerboard-sxt-5nd-r2|\
 	mikrotik,routerboard-wap-2nd|\
 	mikrotik,routerboard-wap-g-5hact2hnd|\
-	mikrotik,routerboard-wapr-2nd)
+	mikrotik,routerboard-wapr-2nd|\
+	mikrotik,routerboard-groovega-52HPacn)
 		label_mac="$mac_base"
 		lan_mac="$mac_base"
 		;;

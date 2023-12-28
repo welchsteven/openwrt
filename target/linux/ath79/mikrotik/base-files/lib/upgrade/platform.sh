@@ -35,7 +35,8 @@ platform_do_upgrade() {
 	mikrotik,routerboard-922uags-5hpacd|\
 	mikrotik,routerboard-951g-2hnd|\
 	mikrotik,routerboard-951ui-2hnd|\
-	mikrotik,routerboard-sxt-5nd-r2)
+	mikrotik,routerboard-sxt-5nd-r2|\
+	mikrotik,routerboard-groovega-52HPacn)
 		platform_do_upgrade_mikrotik_nand "$1"
 		;;
 	*)
