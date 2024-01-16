@@ -180,7 +180,7 @@ define Device/mikrotik_routerboard-groovega-52HPacn
    SOC := qca9556
    DEVICE_MODEL := RouterBOARD GrooveGA-52HPacn (GrooveA 52 ac)
    IMAGE_SIZE := 16256k
-   DEVICE_PACKAGES += ath10k-firmware-qca9887
+   DEVICE_PACKAGES += ath10k-firmware-qca9887 kmod-ath10k
    SUPPORTED_DEVICES += rb-groovega-52HPacn
  endef
  TARGET_DEVICES += mikrotik_routerboard-groovega-52HPacn
