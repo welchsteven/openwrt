@@ -27,8 +27,7 @@ ath79_setup_interfaces()
 	mikrotik,routerboard-sxt-5nd-r2|\
 	mikrotik,routerboard-wap-2nd|\
 	mikrotik,routerboard-wap-g-5hact2hnd|\
-	mikrotik,routerboard-wapr-2nd|\
-	mikrotik,routerboard-groovega-52HPacn)
+	mikrotik,routerboard-wapr-2nd)
 		ucidef_set_interface_lan "eth0"
 		;;
 	mikrotik,routerboard-951ui-2hnd|\

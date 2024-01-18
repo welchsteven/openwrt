@@ -7,8 +7,7 @@ board=$(board_name)
 
 case "$board" in
 mikrotik,routerboard-911-lite|\
-mikrotik,routerboard-lhg-5nd|\
-mikrotik,routerboard-groovega-52HPacn)
+mikrotik,routerboard-lhg-5nd)
 	ucidef_set_led_netdev "lan" "lan" "green:lan" "eth0"
 	ucidef_set_rssimon "wlan0" "200000" "1"
 	ucidef_set_led_rssi "rssilow" "rssilow" "green:rssilow" "wlan0" "1" "100"
